@@ -1,0 +1,11 @@
+[
+  {
+    "name": "Ninja",
+    "geerator": "Ninja",
+    "compilers": {
+      "C": "clang",
+      "CXX": "clang"
+    },
+    "linker": "/usr/bin/lld"
+  }
+]
