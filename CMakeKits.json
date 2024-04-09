@@ -1,10 +1,10 @@
 [
   {
     "name": "Ninja",
-    "geerator": "Ninja",
+    "generator": "Ninja",
     "compilers": {
-      "C": "clang",
-      "CXX": "clang"
+      "C": "/usr/bin/gcc",
+      "CXX": "/usr/bin/g++"
     },
     "linker": "/usr/bin/lld"
   }
