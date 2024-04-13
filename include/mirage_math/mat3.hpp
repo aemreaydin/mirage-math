@@ -58,6 +58,23 @@ struct Mat3
     assert(i <= 2 && "Index > 2");
     return *reinterpret_cast<const Vec3*>(mat[i].data());
   }
+
+  friend std::ostream& operator<<(std::ostream& os, const Mat3& m)
+  {
+    os << std::fixed;
+    os.precision(2);
+    for (int i = 0; i < 3; ++i) {
+      os << "| ";
+      for (int j = 0; j < 3; ++j) {
+        os << m.mat[i][j];
+        if (j != 2) {
+          os << ", ";
+        }
+      }
+      os << " |\n";
+    }
+    return os;
+  }
 };
 
 inline Mat3 operator*(const Mat3& a, const Mat3& b)
