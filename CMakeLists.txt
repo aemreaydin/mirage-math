@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.28)
 
-project(mirage-math VERSION 1.0.0)
+project(MirageMath VERSION 1.0.0)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -18,17 +18,10 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
-add_subdirectory(test)
-
-add_library(mirage-math INTERFACE)
-target_include_directories(mirage-math INTERFACE
+add_library(mirage_math INTERFACE)
+target_compile_features(mirage_math INTERFACE cxx_std_20)
+target_include_directories(mirage_math INTERFACE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>)
 
-set_target_properties(mirage-math PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin
-)
-
+add_subdirectory(test)
