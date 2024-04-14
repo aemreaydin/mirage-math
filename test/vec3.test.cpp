@@ -169,3 +169,26 @@ TEST_F(Vec3Test, CrossProduct)
   EXPECT_FLOAT_EQ(negative_cross_result.y, -cross_result.y);
   EXPECT_FLOAT_EQ(negative_cross_result.z, -cross_result.z);
 }
+
+TEST_F(Vec3Test, ProjectionAndRejection)
+{
+  Vec3 source{ 2.0F, 3.0F, 0.0F };
+  Vec3 target{ 5.0F, 0.0F, 0.0F };
+  Vec3 projected = project(source, target);
+  EXPECT_EQ(projected.x, 2.0F);
+  EXPECT_EQ(projected.y, 0.0F);
+  EXPECT_EQ(projected.z, 0.0F);
+
+  Vec3 rejected = reject(source, target);
+  EXPECT_EQ(rejected.x, 0.0F);
+  EXPECT_EQ(rejected.y, 3.0F);
+  EXPECT_EQ(rejected.z, 0.0F);
+}
+
+TEST_F(Vec3Test, CheckUnitVector)
+{
+  Vec3 unit_vec{ 1.0F / sqrt(3.0F), 1.0F / sqrt(3.0F), 1.0F / sqrt(3.0F) };
+  EXPECT_TRUE(isUnitVector(unit_vec));
+  Vec3 non_unit_vec{ 1.0F, 2.0F, 3.0F };
+  EXPECT_FALSE(isUnitVector(non_unit_vec));
+}

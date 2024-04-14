@@ -97,4 +97,11 @@ inline Vec3 operator*(const Mat3& a, const Vec3& vec)
     a.mat[2][0] * vec.x + a.mat[2][1] * vec.y + a.mat[2][2] * vec.z };
 }
 
+inline float determinant(const Mat3& mat)
+{
+  return mat(0, 0) * (mat(1, 1) * mat(2, 2) - mat(2, 1) * mat(1, 2))
+         - mat(0, 1) * (mat(1, 0) * mat(2, 2) - mat(1, 2) * mat(2, 0))
+         + mat(0, 2) * (mat(1, 0) * mat(2, 1) - mat(1, 1) * mat(2, 0));
+}
+
 }// namespace MirageMath

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "constants.hpp"
 #include <cassert>
 #include <cmath>
 #include <ostream>
@@ -94,6 +95,21 @@ inline Vec3 normalize(const Vec3& vec) { return vec / magnitude(vec); }
 
 inline float dot(const Vec3& a, const Vec3& b) { return a.x * b.x + a.y * b.y + a.z * b.z; }
 
-inline Vec3 cross { return Vec3{ a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x }; }
+inline Vec3 cross(const Vec3& a, const Vec3& b)
+{
+  return Vec3{ a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x };
+}
+
+inline Vec3 project(const Vec3& source, const Vec3& target)
+{
+  return target * (dot(source, target) / dot(target, target));
+}
+
+inline Vec3 reject(const Vec3& source, const Vec3& target) { return source - project(source, target); }
+
+inline bool isUnitVector(const Vec3& vec, const float epsilon = EPSILON)
+{
+  return std::abs(dot(vec, vec) - UNIT) < epsilon;
+}
 
 }// namespace MirageMath

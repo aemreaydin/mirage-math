@@ -22,8 +22,6 @@ CheckOptions:
     value: camelBack_
   - key: readability-identifier-naming.PrivateMemberPrefix
     value: 'm_'
-  - key: readability-identifier-naming.ConstantCase
-    value: UPPER_CASE
   - key: readability-identifier-naming.GlobalConstantCase
     value: UPPER_CASE
   - key: readability-identifier-naming.EnumCase

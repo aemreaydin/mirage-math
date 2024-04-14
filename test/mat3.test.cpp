@@ -50,3 +50,15 @@ TEST_F(Mat3Test, HandlesIndexOperator)
   row.x = 10.0F;
   EXPECT_FLOAT_EQ(matrix(1, 0), 10.0F);
 }
+
+TEST_F(Mat3Test, Determinant)
+{
+  Mat3 identity{ 1, 0, 0, 0, 1, 0, 0, 0, 1 };
+  EXPECT_FLOAT_EQ(determinant(identity), 1.0F);
+
+  Mat3 matrix{ 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+  EXPECT_FLOAT_EQ(determinant(matrix), 0.0F);
+
+  Mat3 matrix2{ 3, 2, 1, 1, 1, 0, 0, 1, 1 };
+  EXPECT_FLOAT_EQ(determinant(matrix2), 2.0F);
+}
