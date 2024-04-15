@@ -96,7 +96,7 @@ TEST_F(Vec3Test, CompoundSubtractionAssignmentOperator)
 
 TEST_F(Vec3Test, CompoundMultiplicationAssignmentOperator)
 {
-  Vec3 result = v1;
+  auto result = v1;
   result *= 2.0F;
   EXPECT_EQ(result.x, 2.0F);
   EXPECT_EQ(result.y, 4.0F);
@@ -105,7 +105,7 @@ TEST_F(Vec3Test, CompoundMultiplicationAssignmentOperator)
 
 TEST_F(Vec3Test, CompoundDivisionAssignmentOperator)
 {
-  Vec3 result = v2;
+  auto result = v2;
   result /= 2.0F;
   EXPECT_EQ(result.x, 2.0F);
   EXPECT_EQ(result.y, 2.5F);
@@ -122,11 +122,11 @@ TEST_F(Vec3Test, Magnitude)
 
 TEST_F(Vec3Test, Normalize)
 {
-  Vec3 normalized_v1 = normalize(v1);
-  Vec3 normalized_v2 = normalize(v2);
+  auto normalized_v1 = normalize(v1);
+  auto normalized_v2 = normalize(v2);
 
-  float magnitude_v1 = magnitude(v1);
-  float magnitude_v2 = magnitude(v2);
+  auto magnitude_v1 = magnitude(v1);
+  auto magnitude_v2 = magnitude(v2);
 
   EXPECT_FLOAT_EQ(magnitude(normalized_v1), 1.0F);
   EXPECT_FLOAT_EQ(magnitude(normalized_v2), 1.0F);
@@ -154,17 +154,17 @@ TEST_F(Vec3Test, CrossProduct)
   Vec3 v2{ 0, 1, 0 };
   Vec3 v3{ 0, 0, 1 };
 
-  Vec3 cross_result = cross(v1, v2);
+  auto cross_result = cross(v1, v2);
   EXPECT_FLOAT_EQ(cross_result.x, 0.0F);
   EXPECT_FLOAT_EQ(cross_result.y, 0.0F);
   EXPECT_FLOAT_EQ(cross_result.z, 1.0F);
 
-  Vec3 parallel_cross_result = cross(v1, Vec3{ 2, 0, 0 });
+  auto parallel_cross_result = cross(v1, Vec3{ 2, 0, 0 });
   EXPECT_FLOAT_EQ(parallel_cross_result.x, 0.0F);
   EXPECT_FLOAT_EQ(parallel_cross_result.y, 0.0F);
   EXPECT_FLOAT_EQ(parallel_cross_result.z, 0.0F);
 
-  Vec3 negative_cross_result = cross(v2, v1);
+  auto negative_cross_result = cross(v2, v1);
   EXPECT_FLOAT_EQ(negative_cross_result.x, -cross_result.x);
   EXPECT_FLOAT_EQ(negative_cross_result.y, -cross_result.y);
   EXPECT_FLOAT_EQ(negative_cross_result.z, -cross_result.z);
@@ -174,12 +174,12 @@ TEST_F(Vec3Test, ProjectionAndRejection)
 {
   Vec3 source{ 2.0F, 3.0F, 0.0F };
   Vec3 target{ 5.0F, 0.0F, 0.0F };
-  Vec3 projected = project(source, target);
+  auto projected = project(source, target);
   EXPECT_EQ(projected.x, 2.0F);
   EXPECT_EQ(projected.y, 0.0F);
   EXPECT_EQ(projected.z, 0.0F);
 
-  Vec3 rejected = reject(source, target);
+  auto rejected = reject(source, target);
   EXPECT_EQ(rejected.x, 0.0F);
   EXPECT_EQ(rejected.y, 3.0F);
   EXPECT_EQ(rejected.z, 0.0F);

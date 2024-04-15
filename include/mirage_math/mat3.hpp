@@ -59,6 +59,24 @@ struct Mat3
     return *reinterpret_cast<const Vec3*>(mat[i].data());
   }
 
+  Mat3& operator*=(float mul)
+  {
+    (*this)[0] * mul;
+    (*this)[1] * mul;
+    (*this)[2] * mul;
+    return *this;
+  }
+
+  Mat3& operator/=(float div)
+  {
+    assert(div != 0.0F && "Can't divide by 0");
+    div = 1.0F / div;
+    (*this)[0] * div;
+    (*this)[1] * div;
+    (*this)[2] * div;
+    return *this;
+  }
+
   friend std::ostream& operator<<(std::ostream& os, const Mat3& m)
   {
     os << std::fixed;
@@ -76,6 +94,10 @@ struct Mat3
     return os;
   }
 };
+
+inline Mat3 operator+(const Mat3& a, const Mat3& b) { return Mat3{ a[0] + b[0], a[1] + b[1], a[2] + b[2] }; }
+
+inline Mat3 operator-(const Mat3& a, const Mat3& b) { return Mat3{ a[0] - b[0], a[1] - b[1], a[2] - b[2] }; }
 
 inline Mat3 operator*(const Mat3& a, const Mat3& b)
 {
@@ -97,11 +119,35 @@ inline Vec3 operator*(const Mat3& a, const Vec3& vec)
     a.mat[2][0] * vec.x + a.mat[2][1] * vec.y + a.mat[2][2] * vec.z };
 }
 
+inline Mat3 operator*(const Mat3& a, float mul) { return Mat3{ a[0] * mul, a[1] * mul, a[2] * mul }; }
+
+inline Mat3 operator/(const Mat3& a, float div)
+{
+  assert(div != 0.0F && "Can't divide by 0");
+  div = 1 / div;
+  return a * div;
+}
+
 inline float determinant(const Mat3& mat)
 {
   return mat(0, 0) * (mat(1, 1) * mat(2, 2) - mat(2, 1) * mat(1, 2))
          - mat(0, 1) * (mat(1, 0) * mat(2, 2) - mat(1, 2) * mat(2, 0))
          + mat(0, 2) * (mat(1, 0) * mat(2, 1) - mat(1, 1) * mat(2, 0));
+}
+
+inline Mat3 inverse(const Mat3& mat)
+{
+  const auto& a = mat[0];
+  const auto& b = mat[1];
+  const auto& c = mat[2];
+
+  const auto b_cross_c = cross(b, c);
+  const auto c_cross_a = cross(c, a);
+  const auto a_cross_b = cross(a, b);
+
+  const auto scalar_cross = dot(a_cross_b, c);
+
+  return Mat3{ b_cross_c, c_cross_a, a_cross_b } / scalar_cross;
 }
 
 }// namespace MirageMath
