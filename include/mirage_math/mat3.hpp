@@ -3,7 +3,7 @@
 #include "vec3.hpp"
 #include <array>
 
-namespace MirageMath {
+namespace Mirage::Math {
 
 struct Mat3
 {
@@ -150,4 +150,4 @@ inline Mat3 inverse(const Mat3& mat)
   return Mat3{ b_cross_c, c_cross_a, a_cross_b } / scalar_cross;
 }
 
-}// namespace MirageMath
+}// namespace Mirage::Math

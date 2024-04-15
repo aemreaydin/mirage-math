@@ -1,8 +1,8 @@
 #include "mirage_math/mat3.hpp"
 #include "gtest/gtest.h"
 
-using MirageMath::Mat3;
-using MirageMath::Vec3;
+using Mirage::Math::Mat3;
+using Mirage::Math::Vec3;
 
 class Mat3Test : public ::testing::Test
 {

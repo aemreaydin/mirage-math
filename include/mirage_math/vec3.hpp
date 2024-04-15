@@ -5,7 +5,7 @@
 #include <cmath>
 #include <ostream>
 
-namespace MirageMath {
+namespace Mirage::Math {
 
 struct Vec3
 {
@@ -112,4 +112,4 @@ inline bool isUnitVector(const Vec3& vec, const float epsilon = EPSILON)
   return std::abs(dot(vec, vec) - UNIT) < epsilon;
 }
 
-}// namespace MirageMath
+}// namespace Mirage::Math

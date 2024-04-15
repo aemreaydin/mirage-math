@@ -1,7 +1,7 @@
 #include "mirage_math/vec3.hpp"
 #include <gtest/gtest.h>
 
-using MirageMath::Vec3;
+using Mirage::Math::Vec3;
 
 class Vec3Test : public ::testing::Test
 {

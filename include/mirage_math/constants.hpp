@@ -1,8 +1,8 @@
 #pragma once
 
-namespace MirageMath {
+namespace Mirage::Math {
 
 constexpr float EPSILON = 0.0000001F;
 constexpr float UNIT    = 1.0F;
 
-}// namespace MirageMath
+}// namespace Mirage::Math
