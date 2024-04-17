@@ -1,5 +1,6 @@
 #include "mirage_math/mat3.hpp"
 #include "gtest/gtest.h"
+#include <gtest/gtest-death-test.h>
 
 using namespace Mirage::Math;
 
@@ -53,6 +54,44 @@ TEST_F( Mat3Test, HandlesVectorInitialization )
   EXPECT_FLOAT_EQ( matrix( 2, 0 ), 3.0F );
   EXPECT_FLOAT_EQ( matrix( 2, 1 ), 6.0F );
   EXPECT_FLOAT_EQ( matrix( 2, 2 ), 9.0F );
+}
+
+TEST_F( Mat3Test, HandlesInitializationList )
+{
+  Mat3 m{
+    {1.0F,  2.0F, 3.0F},
+    { 4.0F, 5.0F, 6.0F},
+    { 7.0F, 8.0F, 9.0F}
+  };
+
+  EXPECT_FLOAT_EQ( m.mat[0][0], 1.0F );
+  EXPECT_FLOAT_EQ( m.mat[0][1], 2.0F );
+  EXPECT_FLOAT_EQ( m.mat[0][2], 3.0F );
+  EXPECT_FLOAT_EQ( m.mat[1][0], 4.0F );
+  EXPECT_FLOAT_EQ( m.mat[1][1], 5.0F );
+  EXPECT_FLOAT_EQ( m.mat[1][2], 6.0F );
+  EXPECT_FLOAT_EQ( m.mat[2][0], 7.0F );
+  EXPECT_FLOAT_EQ( m.mat[2][1], 8.0F );
+  EXPECT_FLOAT_EQ( m.mat[2][2], 9.0F );
+}
+
+TEST_F( Mat3Test, UnaryNegation )
+{
+  Mat3 m{
+    {1.0F,  -2.0F, 3.0F},
+    { 4.0F, -5.0F, 6.0F},
+    { 7.0F, -8.0F, 9.0F}
+  };
+
+  Mat3 negated = -m;
+
+  Mat3 expected{
+    {-1.0F,  2.0F, -3.0F},
+    { -4.0F, 5.0F, -6.0F},
+    { -7.0F, 8.0F, -9.0F}
+  };
+
+  EXPECT_TRUE( areMatricesEqual( negated, expected ) );
 }
 
 TEST_F( Mat3Test, HandlesIndexOperator )
@@ -173,4 +212,26 @@ TEST_F( Mat3Test, GeneralRotation )
   Mat3  result = makeRotation( angle, axis );
   Mat3  expected{ 0.80474F, -0.31062F, 0.50588F, 0.50588F, 0.80474F, -0.31062F, -0.31062F, 0.50588F, 0.80474F };
   EXPECT_TRUE( areMatricesEqual( result, expected ) );
+}
+
+TEST_F( Mat3Test, ReflectionMatrix )
+{
+  Vec3 a{ 1.0F, 0.0F, 0.0F };
+  Mat3 reflection = makeReflection( a );
+  Vec3 v{ 1.0F, 1.0F, 1.0F };
+  Vec3 reflected_v = reflection * v;
+  EXPECT_FLOAT_EQ( reflected_v.x, -1.0F );
+  EXPECT_FLOAT_EQ( reflected_v.y, 1.0F );
+  EXPECT_FLOAT_EQ( reflected_v.z, 1.0F );
+}
+
+TEST_F( Mat3Test, InvolutionMatrix )
+{
+  Vec3 a{ 1.0F, 0.0F, 0.0F };
+  Mat3 involution = makeInvolution( a );
+  Vec3 v{ 1.0F, 1.0F, 1.0F };
+  Vec3 involuted_v = involution * v;
+  EXPECT_FLOAT_EQ( involuted_v.x, 1.0F );
+  EXPECT_FLOAT_EQ( involuted_v.y, -1.0F );
+  EXPECT_FLOAT_EQ( involuted_v.z, -1.0F );
 }

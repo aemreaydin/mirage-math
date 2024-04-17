@@ -9,6 +9,8 @@ struct Mat3
 {
   std::array<std::array<float, 3>, 3> mat{};
 
+  Mat3() = default;
+
   Mat3( float n00, float n01, float n02, float n10, float n11, float n12, float n20, float n21, float n22 )
   {
     mat[0][0] = n00;
@@ -33,6 +35,17 @@ struct Mat3
     mat[2][0] = c.x;
     mat[2][1] = c.y;
     mat[2][2] = c.z;
+  }
+
+  Mat3 operator-() const
+  {
+    Mat3 result;
+    for ( int i = 0; i < 3; ++i ) {
+      for ( int j = 0; j < 3; ++j ) {
+        result.mat[i][j] = -mat[i][j];
+      }
+    }
+    return result;
   }
 
   float& operator()( size_t i, size_t j )
@@ -184,9 +197,9 @@ inline Mat3 makeRotation( float t, const Vec3& a )
   auto y = a.y * one_minus_c;
   auto z = a.z * one_minus_c;
 
-  auto axay = x * a.y; // (1 - c) * ax * ay
-  auto axaz = x * a.z; // (1 - c) * ax * az
-  auto ayaz = y * a.z; // (1 - c) * ay * az
+  auto axay = x * a.y;
+  auto axaz = x * a.z;
+  auto ayaz = y * a.z;
 
   return Mat3{ c + x * a.x,
     axay - s * a.z,
@@ -198,5 +211,20 @@ inline Mat3 makeRotation( float t, const Vec3& a )
     ayaz + s * a.x,
     c + z * a.z };
 }
+
+inline Mat3 makeReflection( const Vec3& a )
+{
+  auto x = -2.0F * a.x;
+  auto y = -2.0F * a.y;
+  auto z = -2.0F * a.z;
+
+  auto axay = x * a.y;
+  auto axaz = x * a.z;
+  auto ayaz = y * a.z;
+
+  return Mat3{ 1.0F + x * a.x, axay, axaz, axay, 1.0F + y * a.y, ayaz, axaz, ayaz, 1.0F + z * a.z };
+}
+
+inline Mat3 makeInvolution( const Vec3& a ) { return -makeReflection( a ); }
 
 } // namespace Mirage::Math
