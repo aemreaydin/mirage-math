@@ -178,7 +178,7 @@ TEST_F( Mat3Test, Inverse )
 TEST_F( Mat3Test, RotationX )
 {
   float angle  = M_PI / 4;
-  Mat3  result = makeRotationX( angle );
+  auto  result = makeRotationX( angle );
   Mat3  expected{
     1.0F, 0.0F, 0.0F, 0.0F, std::cos( angle ), -std::sin( angle ), 0.0F, std::sin( angle ), std::cos( angle )
   };
@@ -188,7 +188,7 @@ TEST_F( Mat3Test, RotationX )
 TEST_F( Mat3Test, RotationY )
 {
   float angle  = M_PI / 4;
-  Mat3  result = makeRotationY( angle );
+  auto  result = makeRotationY( angle );
   Mat3  expected{
     std::cos( angle ), 0.0F, std::sin( angle ), 0.0F, 1.0F, 0.0F, -std::sin( angle ), 0.0F, std::cos( angle )
   };
@@ -198,7 +198,7 @@ TEST_F( Mat3Test, RotationY )
 TEST_F( Mat3Test, RotationZ )
 {
   float angle  = M_PI / 4;
-  Mat3  result = makeRotationZ( angle );
+  auto  result = makeRotationZ( angle );
   Mat3  expected{
     std::cos( angle ), -std::sin( angle ), 0.0F, std::sin( angle ), std::cos( angle ), 0.0F, 0.0F, 0.0F, 1.0F
   };
@@ -209,7 +209,7 @@ TEST_F( Mat3Test, GeneralRotation )
 {
   float angle = M_PI / 4;
   Vec3  axis{ 1.0F / std::sqrt( 3.0F ), 1.0F / std::sqrt( 3.0F ), 1.0F / std::sqrt( 3.0F ) };
-  Mat3  result = makeRotation( angle, axis );
+  auto  result = makeRotation( angle, axis );
   Mat3  expected{ 0.80474F, -0.31062F, 0.50588F, 0.50588F, 0.80474F, -0.31062F, -0.31062F, 0.50588F, 0.80474F };
   EXPECT_TRUE( areMatricesEqual( result, expected ) );
 }
@@ -217,9 +217,9 @@ TEST_F( Mat3Test, GeneralRotation )
 TEST_F( Mat3Test, ReflectionMatrix )
 {
   Vec3 a{ 1.0F, 0.0F, 0.0F };
-  Mat3 reflection = makeReflection( a );
+  auto reflection = makeReflection( a );
   Vec3 v{ 1.0F, 1.0F, 1.0F };
-  Vec3 reflected_v = reflection * v;
+  auto reflected_v = reflection * v;
   EXPECT_FLOAT_EQ( reflected_v.x, -1.0F );
   EXPECT_FLOAT_EQ( reflected_v.y, 1.0F );
   EXPECT_FLOAT_EQ( reflected_v.z, 1.0F );
@@ -228,10 +228,38 @@ TEST_F( Mat3Test, ReflectionMatrix )
 TEST_F( Mat3Test, InvolutionMatrix )
 {
   Vec3 a{ 1.0F, 0.0F, 0.0F };
-  Mat3 involution = makeInvolution( a );
+  auto involution = makeInvolution( a );
   Vec3 v{ 1.0F, 1.0F, 1.0F };
-  Vec3 involuted_v = involution * v;
+  auto involuted_v = involution * v;
   EXPECT_FLOAT_EQ( involuted_v.x, 1.0F );
   EXPECT_FLOAT_EQ( involuted_v.y, -1.0F );
   EXPECT_FLOAT_EQ( involuted_v.z, -1.0F );
+}
+
+TEST_F( Mat3Test, Scale )
+{
+  Vec3 a{ 2.0F, 3.0F, 5.0F };
+  Mat3 scale = makeScale( 2.0F, 2.0F, 2.0F );
+
+  auto scaled_a = scale * a;
+  EXPECT_FLOAT_EQ( scaled_a.x, 4.0F );
+  EXPECT_FLOAT_EQ( scaled_a.y, 6.0F );
+  EXPECT_FLOAT_EQ( scaled_a.z, 10.0F );
+
+  scale    = makeScale( 2.0F, 3.0F, 4.0F );
+  scaled_a = scale * a;
+  EXPECT_FLOAT_EQ( scaled_a.x, 4.0F );
+  EXPECT_FLOAT_EQ( scaled_a.y, 9.0F );
+  EXPECT_FLOAT_EQ( scaled_a.z, 20.0F );
+}
+
+TEST_F( Mat3Test, ScaleOnArbitraryAxis )
+{
+  Vec3 a{ 2.0F, 3.0F, 3.0F };
+  Mat3 scale    = makeScale( 3.0F, Vec3{ 0.0F, 1.0F, 0.0F } );
+  auto scaled_a = scale * a;
+
+  EXPECT_FLOAT_EQ( scaled_a.x, 2.0F );
+  EXPECT_FLOAT_EQ( scaled_a.y, 9.0F );
+  EXPECT_FLOAT_EQ( scaled_a.z, 3.0F );
 }

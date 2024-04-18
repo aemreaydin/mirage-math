@@ -227,4 +227,20 @@ inline Mat3 makeReflection( const Vec3& a )
 
 inline Mat3 makeInvolution( const Vec3& a ) { return -makeReflection( a ); }
 
+inline Mat3 makeScale( float sx, float sy, float sz ) { return Mat3{ sx, 0.0F, 0.0F, 0.0F, sy, 0.0F, 0.0F, 0.0F, sz }; }
+
+inline Mat3 makeScale( float s, const Vec3& a )
+{
+  s -= 1.0F;
+  auto x = s * a.x;
+  auto y = s * a.y;
+  auto z = s * a.z;
+
+  auto axay = x * a.y;
+  auto axaz = x * a.z;
+  auto ayaz = y * a.z;
+
+  return Mat3{ x * a.x + 1.0F, axay, axaz, axay, y * a.y + 1.0F, ayaz, axaz, ayaz, z * a.z + 1.0F };
+}
+
 } // namespace Mirage::Math
