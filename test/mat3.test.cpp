@@ -263,3 +263,38 @@ TEST_F( Mat3Test, ScaleOnArbitraryAxis )
   EXPECT_FLOAT_EQ( scaled_a.y, 9.0F );
   EXPECT_FLOAT_EQ( scaled_a.z, 3.0F );
 }
+
+TEST_F( Mat3Test, ZeroAngleSkew )
+{
+  Vec3  skew_direction{ 1.0F, 1.0F, 1.0F };
+  Vec3  projected{ 1.0F, 0.0F, 0.0F };
+  float angle = 0.0F;
+
+  auto result = makeSkew( angle, skew_direction, projected );
+  Mat3 expected{ 1.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 1.0F };
+
+  EXPECT_TRUE( areMatricesEqual( result, expected ) );
+
+  auto output_vec = result * Vec3{ 1.0F, 1.0F, 1.0F };
+  EXPECT_FLOAT_EQ( output_vec.x, 1.0F );
+  EXPECT_FLOAT_EQ( output_vec.y, 1.0F );
+  EXPECT_FLOAT_EQ( output_vec.z, 1.0F );
+}
+
+TEST_F( Mat3Test, NonZeroAngleSkew )
+{
+  Vec3  skew_direction{ 0, 1, 0 };
+  Vec3  projected{ 1, 0, 0 };
+  float angle = M_PI / 4;
+
+  auto result = makeSkew( angle, skew_direction, projected );
+  auto t      = std::tan( angle );
+  Mat3 expected{ 1.0F, 0.0F, 0.0F, t, 1.0F, 0.0F, 0.0F, 0.0F, 1.0F };
+
+  EXPECT_TRUE( areMatricesEqual( result, expected ) );
+
+  auto output_vec = result * Vec3{ 0.0F, 1.0F, 0.0F };
+  EXPECT_FLOAT_EQ( output_vec.x, 1.0F );
+  EXPECT_FLOAT_EQ( output_vec.y, t );
+  EXPECT_FLOAT_EQ( output_vec.z, 0.0F );
+}

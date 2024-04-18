@@ -243,4 +243,22 @@ inline Mat3 makeScale( float s, const Vec3& a )
   return Mat3{ x * a.x + 1.0F, axay, axaz, axay, y * a.y + 1.0F, ayaz, axaz, ayaz, z * a.z + 1.0F };
 }
 
+inline Mat3 makeSkew( float t, const Vec3& skew_direction, const Vec3& projected )
+{
+  t      = std::tan( t );
+  auto x = skew_direction.x * t;
+  auto y = skew_direction.y * t;
+  auto z = skew_direction.z * t;
+
+  return Mat3{ x * projected.x + 1.0F,
+    x * projected.y,
+    x * projected.z,
+    y * projected.x,
+    y * projected.y + 1.0F,
+    y * projected.z,
+    z * projected.x,
+    z * projected.y,
+    z * projected.z + 1.0F };
+}
+
 } // namespace Mirage::Math
