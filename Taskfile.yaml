@@ -1,0 +1,14 @@
+version: '3'
+tasks:
+  generate:
+    cmds:
+      - cmake -GNinja -S "{{.USER_WORKING_DIR}}" -B "{{.USER_WORKING_DIR}}/build/Debug" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DCMAKE_TOOLCHAIN_FILE="{{.VCPKG_DIR}}"
+    vars:
+      VCPKG_DIR: "{{.USER_WORKING_DIR}}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+  build:
+    cmds:
+      - cmake --build build/Debug --target all
+  test:
+    deps: [build]
+    cmds:
+      - ctest --test-dir build/Debug/test --stop-on-failure --output-on-failure

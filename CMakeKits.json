@@ -6,6 +6,7 @@
       "C": "/usr/bin/gcc",
       "CXX": "/usr/bin/g++"
     },
-    "linker": "/usr/bin/lld"
+    "linker": "/usr/bin/lld",
+    "toolchainFile": "./vcpkg/scripts/buildsystems/vcpkg.cmake"
   }
 ]

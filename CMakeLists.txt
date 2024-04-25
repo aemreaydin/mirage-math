@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.28)
-
 project(MirageMath VERSION 1.0.0)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -9,14 +8,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE INTERNAL "")
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -Werror")
 endif()
-
-include(FetchContent)
-FetchContent_Declare(
-    googletest
-    GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG        release-1.11.0
-)
-FetchContent_MakeAvailable(googletest)
 
 add_library(mirage_math INTERFACE)
 target_compile_features(mirage_math INTERFACE cxx_std_20)

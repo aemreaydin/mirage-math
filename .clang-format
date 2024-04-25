@@ -5,8 +5,9 @@ AlignConsecutiveDeclarations: Consecutive
 AlignOperands: Align
 AlignEscapedNewlines: Left
 AlignTrailingComments: false
-AlignArrayOfStructures: Left
+AlignArrayOfStructures: Right
 AllowAllParametersOfDeclarationOnNextLine: false
+AllowAllArgumentsOnNextLine: true
 AllowShortBlocksOnASingleLine: Never
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: All
@@ -15,12 +16,12 @@ AllowShortLoopsOnASingleLine: true
 AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: true
-AlwaysBreakTemplateDeclarations: No
+AlwaysBreakTemplateDeclarations: Yes
 BinPackArguments: false
 BinPackParameters: false
 BraceWrapping:
   AfterClass: true
-  AfterControlStatement: Never
+  AfterControlStatement: Always
   AfterEnum: false
   AfterFunction: true
   AfterNamespace: false
@@ -44,7 +45,6 @@ BreakStringLiterals: true
 ColumnLimit: 120
 CommentPragmas: '^ IWYU pragma:'
 CompactNamespaces: false
-ConstructorInitializerAllOnOneLineOrOnePerLine: false
 ConstructorInitializerIndentWidth: 2
 ContinuationIndentWidth: 2
 Cpp11BracedListStyle: false
