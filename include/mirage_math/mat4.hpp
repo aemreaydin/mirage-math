@@ -66,4 +66,50 @@ struct Mat4 : public Mat<float, 4, 4>
   // {}
 };
 
+inline Mat4 inverse( const Mat4& mat )
+{
+  const auto& a = reinterpret_cast<const Vec3&>( mat[0] );
+  const auto& b = reinterpret_cast<const Vec3&>( mat[1] );
+  const auto& c = reinterpret_cast<const Vec3&>( mat[2] );
+  const auto& d = reinterpret_cast<const Vec3&>( mat[3] );
+
+  const auto& x = mat( 3, 0 );
+  const auto& y = mat( 3, 1 );
+  const auto& z = mat( 3, 2 );
+  const auto& w = mat( 3, 3 );
+
+  auto s = cross( a, b );
+  auto t = cross( c, d );
+  auto u = a * y - b * x;
+  auto v = c * w - d * z;
+
+  const auto inv_det = 1.0F / ( dot( s, v ) + dot( t, u ) );
+  s *= inv_det;
+  t *= inv_det;
+  u *= inv_det;
+  v *= inv_det;
+
+  const auto r0 = cross( b, v ) + t * y;
+  const auto r1 = cross( v, a ) - t * x;
+  const auto r2 = cross( d, u ) + s * w;
+  const auto r3 = cross( u, c ) - s * z;
+
+  return Mat4{ r0.x(),
+    r0.y(),
+    r0.z(),
+    -dot( b, t ),
+    r1.x(),
+    r1.y(),
+    r1.z(),
+    dot( a, t ),
+    r2.x(),
+    r2.y(),
+    r2.z(),
+    -dot( d, s ),
+    r3.x(),
+    r3.y(),
+    r3.z(),
+    dot( c, s ) };
+}
+
 } // namespace Mirage::Math

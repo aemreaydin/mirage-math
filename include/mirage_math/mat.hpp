@@ -176,4 +176,18 @@ inline Mat<T, N, N> operator/( const Mat<T, N, N>& a, float div )
   return mat;
 }
 
+template<typename T, size_t N>
+inline Mat<T, N, N> transpose( const Mat<T, N, N>& mat )
+{
+  Mat<T, N, N> result{};
+  for ( size_t i = 0; i < N; ++i )
+  {
+    for ( size_t j = 0; j < N; ++j )
+    {
+      result( j, i ) = mat( i, j );
+    }
+  }
+  return result;
+}
+
 } // namespace Mirage::Math

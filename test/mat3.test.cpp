@@ -1,4 +1,5 @@
 #include "mirage_math/mat3.hpp"
+#include "test_utils.hpp"
 #include "gtest/gtest.h"
 #include <gtest/gtest-death-test.h>
 
@@ -10,21 +11,6 @@ protected:
   Mat3 testMat1{ 1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F, 9.0F };
   Mat3 testMat2{ 9.0F, 8.0F, 7.0F, 6.0F, 5.0F, 4.0F, 3.0F, 2.0F, 1.0F };
   Vec3 testVec{ 1.0F, 2.0F, 3.0F };
-
-  static bool areMatricesEqual( const Mat3& mat1, const Mat3& mat2, float tol = EPSILON )
-  {
-    for ( int i = 0; i < 3; ++i )
-    {
-      for ( int j = 0; j < 3; ++j )
-      {
-        if ( std::fabs( mat1[i][j] - mat2[i][j] ) > tol )
-        {
-          return false;
-        }
-      }
-    }
-    return true;
-  }
 };
 
 TEST_F( Mat3Test, HandlesElementInitialization )
