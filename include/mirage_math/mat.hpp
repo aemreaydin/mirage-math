@@ -22,16 +22,27 @@ class Mat
 public:
   Mat() = default;
 
+  static constexpr Mat identity()
+    requires( Row == Col )
+  {
+    Mat result{};
+    for ( auto i = 0; i != Row; ++i )
+    {
+      result( i, i ) = 1.0F;
+    }
+    return result;
+  }
+
   inline T& operator()( size_t i, size_t j )
   {
     assert( i < Row && j < Col );
-    return m_data[i][j];
+    return m_data[j][i];
   }
 
   const T& operator()( size_t i, size_t j ) const
   {
     assert( i < Row && j < Col );
-    return m_data[i][j];
+    return m_data[j][i];
   }
 
   inline Vec<T, Col>& operator[]( const size_t i )
@@ -111,6 +122,8 @@ public:
     }
     return *this;
   }
+
+  // TODO: Add std::string
 };
 
 template<typename T, size_t N>

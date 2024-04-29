@@ -22,6 +22,25 @@ protected:
   }
 };
 
+TEST_F( Mat4Test, IndexOperators )
+{
+  Mat4 index_mat = {
+    Vec4{1.0F, 2.0F, 3.0F, 4.0F},
+    Vec4{6.0F, 7.0F, 8.0F, 9.0F},
+    Vec4{5.0F, 5.0F, 5.0F, 5.0F},
+    Vec4{0.0F, 0.0F, 0.0F, 0.0F}
+  };
+  ASSERT_FLOAT_EQ( index_mat( 1, 1 ), 7.0F );
+  ASSERT_FLOAT_EQ( index_mat( 3, 3 ), 0.0F );
+  ASSERT_FLOAT_EQ( index_mat( 2, 1 ), 8.0F );
+
+  Vec4 index_vec4 = index_mat[1];
+  ASSERT_FLOAT_EQ( index_vec4[0], 6.0F );
+  ASSERT_FLOAT_EQ( index_vec4[1], 7.0F );
+  ASSERT_FLOAT_EQ( index_vec4[2], 8.0F );
+  ASSERT_FLOAT_EQ( index_vec4[3], 9.0F );
+}
+
 TEST_F( Mat4Test, InverseOfIdentity )
 {
   auto inv = inverse( identity );

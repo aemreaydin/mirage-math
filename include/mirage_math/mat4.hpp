@@ -4,8 +4,9 @@
 
 namespace Mirage::Math {
 
-struct Mat4 : public Mat<float, 4, 4>
+class Mat4 : public Mat<float, 4, 4>
 {
+public:
   Mat4() = default;
 
   Mat4( float t00,

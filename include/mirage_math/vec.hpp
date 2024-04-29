@@ -18,7 +18,7 @@ template<typename T, typename U>
 concept IsSame = std::is_same_v<T, U>;
 
 template<typename T, size_t N, typename... Ts>
-concept VecParams = (... && IsSame<T, Ts>)&&( ( sizeof...( Ts ) == N ) && ( N >= 2 ) );
+concept VecParams = (... && IsSame<T, Ts>)&&( ( sizeof...( Ts ) == N ) );
 
 template<typename T, size_t N>
   requires Arithmetic<T>
@@ -31,7 +31,12 @@ public:
 
   template<typename... Args>
     requires VecParams<T, N, Args...>
-  inline explicit Vec( Args... args ) : m_data{ args... }
+  inline constexpr explicit Vec( Args... args ) : m_data{ args... }
+  {}
+
+  template<size_t SubN = 3, typename U>
+    requires( IsSame<T, U> )
+  inline constexpr Vec( const Vec<T, SubN>& vec, U value ) : m_data{ vec.x(), vec.y(), vec.z(), value }
   {}
 
   inline T& operator[]( size_t i )
@@ -116,6 +121,22 @@ public:
     return *this;
   }
 
+  template<size_t U>
+  inline Vec<T, U>& toSubVec()
+    requires( U < N )
+  {
+    return *reinterpret_cast<Vec<T, U>*>( m_data.data() );
+  }
+
+  template<size_t U>
+  const inline Vec<T, U>& toSubVec() const
+    requires( U < N )
+  {
+    return *reinterpret_cast<const Vec<T, U>*>( m_data.data() );
+  }
+
+  inline void normalizeInPlace() { *this / magnitude( *this ); }
+
   explicit inline operator std::string() const
   {
     std::string result = "Vec" + std::to_string( N ) + "(";
@@ -130,8 +151,6 @@ public:
     result += ")";
     return result;
   }
-
-  inline void normalizeInPlace() { *this / magnitude( *this ); }
 };
 
 template<typename T, size_t N>
@@ -251,6 +270,7 @@ inline bool isUnitVector( const Vec<T, N>& vec, const T epsilon = EPSILON )
   return std::abs( dot( vec, vec ) - UNIT ) < epsilon;
 }
 
+using Vec2  = Vec<float, 2>;
 using Vec3  = Vec<float, 3>;
 using Vec4  = Vec<float, 4>;
 using IVec3 = Vec<int, 3>;

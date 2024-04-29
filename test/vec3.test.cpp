@@ -168,9 +168,9 @@ TEST_F( Vec3Test, CrossProduct )
   Vec3 vec3{ 0.0F, 0.0F, 1.0F };
 
   auto cross_result = cross( vec1, vec2 );
-  EXPECT_FLOAT_EQ( cross_result.x(), 0.0F );
-  EXPECT_FLOAT_EQ( cross_result.y(), 0.0F );
-  EXPECT_FLOAT_EQ( cross_result.z(), 1.0F );
+  EXPECT_FLOAT_EQ( cross_result.x(), vec3.x() );
+  EXPECT_FLOAT_EQ( cross_result.y(), vec3.y() );
+  EXPECT_FLOAT_EQ( cross_result.z(), vec3.z() );
 
   auto parallel_cross_result = cross( vec1, Vec3{ 2.0F, 0.0F, 0.0F } );
   EXPECT_FLOAT_EQ( parallel_cross_result.x(), 0.0F );

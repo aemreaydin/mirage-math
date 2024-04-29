@@ -6,7 +6,7 @@ AlignOperands: Align
 AlignEscapedNewlines: Left
 AlignTrailingComments: false
 AlignArrayOfStructures: Right
-AllowAllParametersOfDeclarationOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: true
 AllowAllArgumentsOnNextLine: true
 AllowShortBlocksOnASingleLine: Never
 AllowShortCaseLabelsOnASingleLine: false
