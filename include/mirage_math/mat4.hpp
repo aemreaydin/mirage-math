@@ -9,22 +9,9 @@ class Mat4 : public Mat<float, 4, 4>
 public:
   Mat4() = default;
 
-  Mat4( float t00,
-    float     t01,
-    float     t02,
-    float     t03,
-    float     t10,
-    float     t11,
-    float     t12,
-    float     t13,
-    float     t20,
-    float     t21,
-    float     t22,
-    float     t23,
-    float     t30,
-    float     t31,
-    float     t32,
-    float     t33 )
+  template<typename T>
+    requires( IsSame<T, float> )
+  Mat4( T t00, T t01, T t02, T t03, T t10, T t11, T t12, T t13, T t20, T t21, T t22, T t23, T t30, T t31, T t32, T t33 )
   {
     ( *this )( 0, 0 ) = t00;
     ( *this )( 0, 1 ) = t10;

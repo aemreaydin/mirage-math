@@ -34,13 +34,13 @@ TEST_F( Mat3Test, HandlesVectorInitialization )
   Vec3 vec3{ 3.0F, 6.0F, 9.0F };
   Mat3 matrix{ vec1, vec2, vec3 };
   EXPECT_FLOAT_EQ( matrix( 0, 0 ), 1.0F );
-  EXPECT_FLOAT_EQ( matrix( 0, 1 ), 4.0F );
-  EXPECT_FLOAT_EQ( matrix( 0, 2 ), 7.0F );
-  EXPECT_FLOAT_EQ( matrix( 1, 0 ), 2.0F );
+  EXPECT_FLOAT_EQ( matrix( 1, 0 ), 4.0F );
+  EXPECT_FLOAT_EQ( matrix( 2, 0 ), 7.0F );
+  EXPECT_FLOAT_EQ( matrix( 0, 1 ), 2.0F );
   EXPECT_FLOAT_EQ( matrix( 1, 1 ), 5.0F );
-  EXPECT_FLOAT_EQ( matrix( 1, 2 ), 8.0F );
-  EXPECT_FLOAT_EQ( matrix( 2, 0 ), 3.0F );
-  EXPECT_FLOAT_EQ( matrix( 2, 1 ), 6.0F );
+  EXPECT_FLOAT_EQ( matrix( 2, 1 ), 8.0F );
+  EXPECT_FLOAT_EQ( matrix( 0, 2 ), 3.0F );
+  EXPECT_FLOAT_EQ( matrix( 1, 2 ), 6.0F );
   EXPECT_FLOAT_EQ( matrix( 2, 2 ), 9.0F );
 }
 
@@ -53,13 +53,13 @@ TEST_F( Mat3Test, HandlesInitializationList )
   };
 
   EXPECT_FLOAT_EQ( mat( 0, 0 ), 1.0F );
-  EXPECT_FLOAT_EQ( mat( 0, 1 ), 2.0F );
-  EXPECT_FLOAT_EQ( mat( 0, 2 ), 3.0F );
-  EXPECT_FLOAT_EQ( mat( 1, 0 ), 4.0F );
+  EXPECT_FLOAT_EQ( mat( 1, 0 ), 2.0F );
+  EXPECT_FLOAT_EQ( mat( 2, 0 ), 3.0F );
+  EXPECT_FLOAT_EQ( mat( 0, 1 ), 4.0F );
   EXPECT_FLOAT_EQ( mat( 1, 1 ), 5.0F );
-  EXPECT_FLOAT_EQ( mat( 1, 2 ), 6.0F );
-  EXPECT_FLOAT_EQ( mat( 2, 0 ), 7.0F );
-  EXPECT_FLOAT_EQ( mat( 2, 1 ), 8.0F );
+  EXPECT_FLOAT_EQ( mat( 2, 1 ), 6.0F );
+  EXPECT_FLOAT_EQ( mat( 0, 2 ), 7.0F );
+  EXPECT_FLOAT_EQ( mat( 1, 2 ), 8.0F );
   EXPECT_FLOAT_EQ( mat( 2, 2 ), 9.0F );
 }
 
@@ -86,12 +86,12 @@ TEST_F( Mat3Test, HandlesIndexOperator )
 {
   Mat3  matrix{ 1.0F, 2.0F, 3.0F, 4.0F, 5.0F, 6.0F, 7.0F, 8.0F, 9.0F };
   auto& row = matrix[1];
-  EXPECT_FLOAT_EQ( row.x(), 2.0F );
+  EXPECT_FLOAT_EQ( row.x(), 4.0F );
   EXPECT_FLOAT_EQ( row.y(), 5.0F );
-  EXPECT_FLOAT_EQ( row.z(), 8.0F );
+  EXPECT_FLOAT_EQ( row.z(), 6.0F );
 
   row.x() = 10.0F;
-  EXPECT_FLOAT_EQ( matrix( 1, 0 ), 10.0F );
+  EXPECT_FLOAT_EQ( matrix( 0, 1 ), 10.0F );
 
   ASSERT_DEATH( matrix( 3, 0 ), "" );
   ASSERT_DEATH( matrix( 0, 3 ), "" );
@@ -163,19 +163,23 @@ TEST_F( Mat3Test, HandlesMatrixSubtraction )
 TEST_F( Mat3Test, HandlesMatrixMultiplicationByMatrix )
 {
   auto result = testMat1 * testMat2;
-  ASSERT_FLOAT_EQ( result( 0, 0 ), 90 );
-  ASSERT_FLOAT_EQ( result( 1, 0 ), 114 );
+  ASSERT_FLOAT_EQ( result( 0, 0 ), 30 );
+  ASSERT_FLOAT_EQ( result( 1, 0 ), 24 );
+  ASSERT_FLOAT_EQ( result( 2, 0 ), 18 );
+  ASSERT_FLOAT_EQ( result( 0, 1 ), 84 );
   ASSERT_FLOAT_EQ( result( 1, 1 ), 69 );
-  ASSERT_FLOAT_EQ( result( 2, 0 ), 138 );
-  ASSERT_FLOAT_EQ( result( 2, 2 ), 30 );
+  ASSERT_FLOAT_EQ( result( 2, 1 ), 54 );
+  ASSERT_FLOAT_EQ( result( 0, 2 ), 138 );
+  ASSERT_FLOAT_EQ( result( 1, 2 ), 114 );
+  ASSERT_FLOAT_EQ( result( 2, 2 ), 90 );
 }
 
 TEST_F( Mat3Test, HandlesMatrixMultiplicationByVector )
 {
   auto result = testMat1 * testVec;
-  ASSERT_FLOAT_EQ( result[0], 30 );
-  ASSERT_FLOAT_EQ( result[1], 36 );
-  ASSERT_FLOAT_EQ( result[2], 42 );
+  ASSERT_FLOAT_EQ( result[0], 14 );
+  ASSERT_FLOAT_EQ( result[1], 32 );
+  ASSERT_FLOAT_EQ( result[2], 50 );
 
   Mat3 test_mat{
     Vec3{1.0F, 4.0F, 7.0F},

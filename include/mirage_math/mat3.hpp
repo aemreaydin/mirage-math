@@ -8,7 +8,9 @@ class Mat3 : public Mat<float, 3, 3>
 public:
   Mat3() = default;
 
-  Mat3( float n00, float n01, float n02, float n10, float n11, float n12, float n20, float n21, float n22 )
+  template<typename T>
+    requires( IsSame<T, float> )
+  Mat3( T n00, T n01, T n02, T n10, T n11, T n12, T n20, T n21, T n22 )
   {
     ( *this )( 0, 0 ) = n00;
     ( *this )( 0, 1 ) = n10;

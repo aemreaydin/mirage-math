@@ -22,6 +22,11 @@ class Mat
 public:
   Mat() = default;
 
+  // template<typename... Args>
+  //   requires MatConstructorT<T, Row, Col, Args...>
+  // inline constexpr explicit Mat( Args&&... args ) : m_data{ std::forward<Args>( args )... }
+  // {}
+
   static constexpr Mat identity()
     requires( Row == Col )
   {
@@ -152,7 +157,7 @@ inline Mat<T, N, N> operator*( const Mat<T, N, N>& left, const Mat<T, N, N>& rig
     {
       for ( auto k = 0; k != N; ++k )
       {
-        mat( i, j ) += left( i, k ) * right( k, j );
+        mat( j, i ) += left( k, i ) * right( j, k );
       }
     }
   }
@@ -167,7 +172,7 @@ inline Vec<T, N> operator*( const Mat<T, N, N>& mat, const Vec<T, N>& vec )
   {
     for ( auto j = 0; j != N; ++j )
     {
-      result[i] += mat( i, j ) * vec[j];
+      result[i] += mat( j, i ) * vec[j];
     }
   }
   return result;
