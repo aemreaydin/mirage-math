@@ -187,14 +187,20 @@ inline Vec<T, N> operator-( const Vec<T, N>& left )
 }
 
 template<typename T, size_t N>
-inline Vec<T, N> operator*( const Vec<T, N>& left, T mul )
+inline Vec<T, N> operator*( const Vec<T, N>& vec, T mul )
 {
-  Vec<T, N> vec{};
+  Vec<T, N> result{};
   for ( auto i = 0; i != N; ++i )
   {
-    vec[i] = left[i] * mul;
+    result[i] = vec[i] * mul;
   }
-  return vec;
+  return result;
+}
+
+template<typename T, size_t N>
+inline Vec<T, N> operator*( T mul, const Vec<T, N>& vec )
+{
+  return vec * mul;
 }
 
 template<typename T, size_t N>
