@@ -41,7 +41,7 @@ public:
     float m22 = rotation_mat( 2, 2 );
     float sum = m00 + m11 + m22;
 
-    if ( sum > 0.F )
+    if ( sum > 0.0F )
     {
       w()     = std::sqrt( sum + 1.0F ) * 0.5F;
       float f = 0.25F / w();
