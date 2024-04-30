@@ -39,21 +39,52 @@ protected:
 
 TEST_F( Mat4Test, IndexOperators )
 {
+  Mat4 mat_val = { 1.0F, 2.0F, 3.0F, 4.0F, 6.0F, 7.0F, 8.0F, 9.0F, 5.0F, 5.0F, 5.0F, 5.0F, 0.0F, 0.0F, 0.0F, 0.0F };
+  EXPECT_FLOAT_EQ( mat_val( 0, 0 ), 1.0F );
+  EXPECT_FLOAT_EQ( mat_val( 1, 0 ), 6.0F );
+  EXPECT_FLOAT_EQ( mat_val( 2, 0 ), 5.0F );
+  EXPECT_FLOAT_EQ( mat_val( 3, 0 ), 0.0F );
+  EXPECT_FLOAT_EQ( mat_val( 0, 1 ), 2.0F );
+  EXPECT_FLOAT_EQ( mat_val( 1, 1 ), 7.0F );
+  EXPECT_FLOAT_EQ( mat_val( 2, 1 ), 5.0F );
+  EXPECT_FLOAT_EQ( mat_val( 3, 1 ), 0.0F );
+  EXPECT_FLOAT_EQ( mat_val( 0, 2 ), 3.0F );
+  EXPECT_FLOAT_EQ( mat_val( 1, 2 ), 8.0F );
+  EXPECT_FLOAT_EQ( mat_val( 2, 2 ), 5.0F );
+  EXPECT_FLOAT_EQ( mat_val( 3, 2 ), 0.0F );
+  EXPECT_FLOAT_EQ( mat_val( 0, 3 ), 4.0F );
+  EXPECT_FLOAT_EQ( mat_val( 1, 3 ), 9.0F );
+  EXPECT_FLOAT_EQ( mat_val( 2, 3 ), 5.0F );
+  EXPECT_FLOAT_EQ( mat_val( 3, 3 ), 0.0F );
+
   Mat4 index_mat = {
     Vec4{1.0F, 2.0F, 3.0F, 4.0F},
     Vec4{6.0F, 7.0F, 8.0F, 9.0F},
     Vec4{5.0F, 5.0F, 5.0F, 5.0F},
     Vec4{0.0F, 0.0F, 0.0F, 0.0F}
   };
-  ASSERT_FLOAT_EQ( index_mat( 1, 1 ), 7.0F );
-  ASSERT_FLOAT_EQ( index_mat( 3, 3 ), 0.0F );
-  ASSERT_FLOAT_EQ( index_mat( 2, 1 ), 8.0F );
+  EXPECT_FLOAT_EQ( index_mat( 0, 0 ), 1.0F );
+  EXPECT_FLOAT_EQ( index_mat( 1, 0 ), 2.0F );
+  EXPECT_FLOAT_EQ( index_mat( 2, 0 ), 3.0F );
+  EXPECT_FLOAT_EQ( index_mat( 3, 0 ), 4.0F );
+  EXPECT_FLOAT_EQ( index_mat( 0, 1 ), 6.0F );
+  EXPECT_FLOAT_EQ( index_mat( 1, 1 ), 7.0F );
+  EXPECT_FLOAT_EQ( index_mat( 2, 1 ), 8.0F );
+  EXPECT_FLOAT_EQ( index_mat( 3, 1 ), 9.0F );
+  EXPECT_FLOAT_EQ( index_mat( 0, 2 ), 5.0F );
+  EXPECT_FLOAT_EQ( index_mat( 1, 2 ), 5.0F );
+  EXPECT_FLOAT_EQ( index_mat( 2, 2 ), 5.0F );
+  EXPECT_FLOAT_EQ( index_mat( 3, 2 ), 5.0F );
+  EXPECT_FLOAT_EQ( index_mat( 0, 3 ), 0.0F );
+  EXPECT_FLOAT_EQ( index_mat( 1, 3 ), 0.0F );
+  EXPECT_FLOAT_EQ( index_mat( 2, 3 ), 0.0F );
+  EXPECT_FLOAT_EQ( index_mat( 3, 3 ), 0.0F );
 
   Vec4 index_vec4 = index_mat[1];
-  ASSERT_FLOAT_EQ( index_vec4[0], 6.0F );
-  ASSERT_FLOAT_EQ( index_vec4[1], 7.0F );
-  ASSERT_FLOAT_EQ( index_vec4[2], 8.0F );
-  ASSERT_FLOAT_EQ( index_vec4[3], 9.0F );
+  EXPECT_FLOAT_EQ( index_vec4[0], 6.0F );
+  EXPECT_FLOAT_EQ( index_vec4[1], 7.0F );
+  EXPECT_FLOAT_EQ( index_vec4[2], 8.0F );
+  EXPECT_FLOAT_EQ( index_vec4[3], 9.0F );
 }
 
 TEST_F( Mat4Test, HandlesMatrixMultiplicationByMatrix )
@@ -73,22 +104,22 @@ TEST_F( Mat4Test, HandlesMatrixMultiplicationByMatrix )
   };
 
   auto result = test_mat1 * test_mat2;
-  ASSERT_FLOAT_EQ( result( 0, 0 ), 31 );
-  ASSERT_FLOAT_EQ( result( 1, 0 ), 37 );
-  ASSERT_FLOAT_EQ( result( 2, 0 ), 43 );
-  ASSERT_FLOAT_EQ( result( 3, 0 ), 49 );
-  ASSERT_FLOAT_EQ( result( 0, 1 ), 91 );
-  ASSERT_FLOAT_EQ( result( 1, 1 ), 107 );
-  ASSERT_FLOAT_EQ( result( 2, 1 ), 123 );
-  ASSERT_FLOAT_EQ( result( 3, 1 ), 139 );
-  ASSERT_FLOAT_EQ( result( 0, 2 ), 60 );
-  ASSERT_FLOAT_EQ( result( 1, 2 ), 70 );
-  ASSERT_FLOAT_EQ( result( 2, 2 ), 80 );
-  ASSERT_FLOAT_EQ( result( 3, 2 ), 90 );
-  ASSERT_FLOAT_EQ( result( 0, 3 ), 0 );
-  ASSERT_FLOAT_EQ( result( 1, 3 ), 0 );
-  ASSERT_FLOAT_EQ( result( 2, 3 ), 0 );
-  ASSERT_FLOAT_EQ( result( 3, 3 ), 0 );
+  EXPECT_FLOAT_EQ( result( 0, 0 ), 31 );
+  EXPECT_FLOAT_EQ( result( 1, 0 ), 37 );
+  EXPECT_FLOAT_EQ( result( 2, 0 ), 43 );
+  EXPECT_FLOAT_EQ( result( 3, 0 ), 49 );
+  EXPECT_FLOAT_EQ( result( 0, 1 ), 91 );
+  EXPECT_FLOAT_EQ( result( 1, 1 ), 107 );
+  EXPECT_FLOAT_EQ( result( 2, 1 ), 123 );
+  EXPECT_FLOAT_EQ( result( 3, 1 ), 139 );
+  EXPECT_FLOAT_EQ( result( 0, 2 ), 60 );
+  EXPECT_FLOAT_EQ( result( 1, 2 ), 70 );
+  EXPECT_FLOAT_EQ( result( 2, 2 ), 80 );
+  EXPECT_FLOAT_EQ( result( 3, 2 ), 90 );
+  EXPECT_FLOAT_EQ( result( 0, 3 ), 0 );
+  EXPECT_FLOAT_EQ( result( 1, 3 ), 0 );
+  EXPECT_FLOAT_EQ( result( 2, 3 ), 0 );
+  EXPECT_FLOAT_EQ( result( 3, 3 ), 0 );
 }
 
 TEST_F( Mat4Test, HandlesMatrixMultiplicationByVector )
@@ -101,10 +132,10 @@ TEST_F( Mat4Test, HandlesMatrixMultiplicationByVector )
   };
   Vec4 test_vec{ 1.0F, 2.0F, 3.0F, 4.0F };
   auto result = test_mat1 * test_vec;
-  ASSERT_FLOAT_EQ( result[0], 30 );
-  ASSERT_FLOAT_EQ( result[1], 80 );
-  ASSERT_FLOAT_EQ( result[2], 50 );
-  ASSERT_FLOAT_EQ( result[3], 0 );
+  EXPECT_FLOAT_EQ( result[0], 30 );
+  EXPECT_FLOAT_EQ( result[1], 80 );
+  EXPECT_FLOAT_EQ( result[2], 50 );
+  EXPECT_FLOAT_EQ( result[3], 0 );
 }
 
 TEST_F( Mat4Test, InverseOfIdentity )

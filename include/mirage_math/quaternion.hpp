@@ -34,7 +34,47 @@ public:
       1.0F - 2.0F * x2 - 2.0F * y2 };
   }
 
-  inline void setRotationMatrix( const Mat3& rotation_mat );
+  inline void setRotationFromMatrix( const Mat3& rotation_mat )
+  {
+    float m00 = rotation_mat( 0, 0 );
+    float m11 = rotation_mat( 1, 1 );
+    float m22 = rotation_mat( 2, 2 );
+    float sum = m00 + m11 + m22;
+
+    if ( sum > 0.F )
+    {
+      w()     = std::sqrt( sum + 1.0F ) * 0.5F;
+      float f = 0.25F / w();
+
+      x() = ( rotation_mat( 2, 1 ) - rotation_mat( 1, 2 ) ) * f;
+      y() = ( rotation_mat( 0, 2 ) - rotation_mat( 2, 0 ) ) * f;
+      z() = ( rotation_mat( 1, 0 ) - rotation_mat( 0, 1 ) ) * f;
+    } else if ( ( m00 > m11 ) && ( m00 > m22 ) )
+    {
+      x()     = std::sqrt( m00 - m11 - m22 + 1.0F ) * 0.5F;
+      float f = 0.25F / x();
+
+      y() = ( rotation_mat( 1, 0 ) + rotation_mat( 0, 1 ) ) * f;
+      z() = ( rotation_mat( 0, 2 ) + rotation_mat( 2, 0 ) ) * f;
+      w() = ( rotation_mat( 2, 1 ) - rotation_mat( 1, 2 ) ) * f;
+    } else if ( m11 > m22 )
+    {
+      y()     = std::sqrt( m11 - m00 - m22 + 1.0F ) * 0.5F;
+      float f = 0.25F / y();
+
+      x() = ( rotation_mat( 1, 0 ) + rotation_mat( 0, 1 ) ) * f;
+      z() = ( rotation_mat( 2, 1 ) + rotation_mat( 1, 2 ) ) * f;
+      w() = ( rotation_mat( 0, 2 ) - rotation_mat( 2, 0 ) ) * f;
+    } else
+    {
+      z()     = std::sqrt( m22 - m00 - m11 + 1.0F ) * 0.5F;
+      float f = 0.25F / z();
+
+      x() = ( rotation_mat( 0, 2 ) + rotation_mat( 2, 0 ) ) * f;
+      y() = ( rotation_mat( 2, 1 ) + rotation_mat( 1, 2 ) ) * f;
+      w() = ( rotation_mat( 1, 0 ) - rotation_mat( 0, 1 ) ) * f;
+    }
+  }
 };
 
 Quaternion operator*( const Quaternion& q00, const Quaternion& q01 )
@@ -55,5 +95,7 @@ inline Vec3 transform( const Vec3& vec, const Quaternion& quat )
 
   return ( c * c - b_squared ) * vec + 2.0F * dot( vec, b ) * b + 2.0F * c * cross( b, vec );
 }
+
+using Quat = Quaternion;
 
 } // namespace Mirage::Math
