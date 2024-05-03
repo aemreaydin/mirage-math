@@ -10,7 +10,13 @@ protected:
   Line defaultLine;
   Line testLine;
 
-  void SetUp() override { testLine = Line( Vec3( 1.0F, 2.0F, 3.0F ), Vec3( 4.0F, 5.0F, 6.0F ) ); }
+  void SetUp() override
+  {
+    testLine = Line{
+      Vec3{1.0F, 2.0F, 3.0F},
+      Vec3{4.0F, 5.0F, 6.0F}
+    };
+  }
 };
 
 TEST_F( LineTest, DefaultConstructor )
@@ -58,4 +64,40 @@ TEST_F( LineTest, DistanceFromLine )
   expected_distance   = std::sqrt( 2.0F );
   calculated_distance = distance( point, line );
   EXPECT_FLOAT_EQ( calculated_distance, expected_distance );
+}
+
+TEST_F( LineTest, DistanceBetweenSkewLines )
+{
+  Line line_a{
+    Vec3{0.0F, 0.0F, 0.0F},
+    Vec3{1.0F, 0.0F, 0.0F}
+  };
+  Line line_b{
+    Vec3{0.0F, 1.0F, 1.0F},
+    Vec3{0.0F, 1.0F, 0.0F}
+  };
+
+  float expected          = 1.0F;
+  float distance_computed = distance( line_a, line_b );
+  EXPECT_FLOAT_EQ( distance_computed, expected );
+}
+
+TEST_F( LineTest, DistanceBetweenParallelLines )
+{
+  Line line_a( Vec3{ 0.0F, 0.0F, 0.0F }, Vec3{ 1.0F, 1.0F, 1.0F } );
+  Line line_b( Vec3{ 0.0F, 1.0F, 1.0F }, Vec3{ 1.0F, 1.0F, 1.0F } );
+
+  float expected          = sqrt( 2.0F / 3.0F );
+  float distance_computed = distance( line_a, line_b );
+  EXPECT_FLOAT_EQ( distance_computed, expected );
+}
+
+TEST_F( LineTest, DistanceBetweenIntersectingLines )
+{
+  Line line_a( Vec3{ 0.0F, 0.0F, 0.0F }, Vec3{ 1.0F, 0.0F, 0.0F } );
+  Line line_b( Vec3{ 0.0F, 0.0F, 0.0F }, Vec3{ 0.0F, 1.0F, 0.0F } );
+
+  float expected          = 0.0F;
+  float distance_computed = distance( line_a, line_b );
+  EXPECT_FLOAT_EQ( distance_computed, expected );
 }
