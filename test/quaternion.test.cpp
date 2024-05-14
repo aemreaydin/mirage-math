@@ -1,7 +1,7 @@
 #include "mirage_math/quaternion.hpp"
 #include "mirage_math/constants.hpp"
 #include "test_utils.hpp"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 #include <gtest/gtest-death-test.h>
 
 using namespace Mirage::Math;

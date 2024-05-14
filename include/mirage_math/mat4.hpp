@@ -40,18 +40,6 @@ public:
   }
 
   Mat4( const Mat& other ) : Mat( other ) {}
-
-  // TODO
-  // template<typename... Args>
-  //   requires MatConstructorT<float, 4, 4, Args...>
-  // explicit Mat4( Args... args ) : Mat{ args... }
-  // {}
-
-  // TODO
-  // template<typename... Args>
-  //   requires MatConstructorVec<float, 4, Args...>
-  // explicit Mat4( Args... args ) : Mat{ args... }
-  // {}
 };
 
 inline Mat4 inverse( const Mat4& mat )

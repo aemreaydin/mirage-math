@@ -108,4 +108,15 @@ inline Point3 operator*( const Transform4& t, const Point3& point )
   };
 }
 
+// This operator is used for normal vector transformation
+// TODO: This should probably be function with a clear name
+inline Vec3 operator*( const Vec3& normal_vec, const Transform4& t )
+{
+  return Vec3{
+    normal_vec.x() * t( 0, 0 ) + normal_vec.y() * t( 1, 0 ) + normal_vec.z() * t( 2, 0 ),
+    normal_vec.x() * t( 0, 1 ) + normal_vec.y() * t( 1, 1 ) + normal_vec.z() * t( 2, 1 ),
+    normal_vec.x() * t( 0, 2 ) + normal_vec.y() * t( 1, 2 ) + normal_vec.z() * t( 2, 2 ),
+  };
+}
+
 } // namespace Mirage::Math

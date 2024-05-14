@@ -1,6 +1,6 @@
 #include "mirage_math/mat3.hpp"
 #include "test_utils.hpp"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 #include <gtest/gtest-death-test.h>
 
 using namespace Mirage::Math;

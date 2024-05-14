@@ -1,7 +1,7 @@
 #include "mirage_math/transform.hpp"
 #include "test_utils.hpp"
-#include "gtest/gtest.h"
 #include <gtest/gtest-death-test.h>
+#include <gtest/gtest.h>
 
 using namespace Mirage::Math;
 
@@ -82,30 +82,3 @@ TEST_F( Transform4Test, PointVsVector )
   EXPECT_FLOAT_EQ( point.y() + translate.y(), point_translated.y() );
   EXPECT_FLOAT_EQ( point.z() + translate.z(), point_translated.z() );
 }
-
-// TEST_F( Transform4Test, InverseOfIdentity )
-// {
-//   auto inv = inverse( identity );
-//   areMatricesEqual( inv, identity );
-// }
-//
-// TEST_F( Transform4Test, InverseOfScaling )
-// {
-//   auto       inv = inverse( scaling );
-//   Transform4 expected_inverse{ 0.5, 0, 0, 0, 0, 0.333333F, 0, 0, 0, 0, 0.25, 0, 0, 0, 0, 1 };
-//   areMatricesEqual( inv, expected_inverse );
-// }
-//
-// TEST_F( Transform4Test, InverseOfRotation )
-// {
-//   auto       inv              = inverse( rotation );
-//   Transform4 expected_inverse = transpose( rotation );
-//   areMatricesEqual( inv, expected_inverse );
-// }
-//
-// TEST_F( Transform4Test, InverseOfTranslation )
-// {
-//   auto       inv = inverse( translation );
-//   Transform4 expected_inverse{ 1, 0, 0, -1, 0, 1, 0, -2, 0, 0, 1, -3, 0, 0, 0, 1 };
-//   areMatricesEqual( inv, expected_inverse );
-// }

@@ -18,7 +18,7 @@ template<typename T, typename U>
 concept IsSame = std::is_same_v<T, U>;
 
 template<typename T, size_t N, typename... Ts>
-concept VecParams = (... && IsSame<T, Ts>)&&( ( sizeof...( Ts ) == N ) );
+concept VecParams = ( ... && IsSame<T, Ts> ) && ( ( sizeof...( Ts ) == N ) );
 
 template<typename T, size_t N>
   requires Arithmetic<T>
@@ -135,7 +135,7 @@ public:
     return *reinterpret_cast<const Vec<T, U>*>( m_data.data() );
   }
 
-  inline void normalizeInPlace() { *this / magnitude( *this ); }
+  inline void normalizeInPlace() { *this /= magnitude( *this ); }
 
   explicit inline operator std::string() const
   {
