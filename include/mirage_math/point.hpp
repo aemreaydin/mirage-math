@@ -9,6 +9,7 @@ class Point3 : public Vec3
 public:
   Point3() = default;
   Point3( float x, float y, float z ) : Vec3( x, y, z ) {}
+  Point3( const Vec3& vec ) : Vec3( vec ) {};
 };
 
 inline Point3 operator+( const Point3& point, const Vec3& vec )

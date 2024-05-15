@@ -18,7 +18,7 @@ public:
   [[nodiscard]] inline const Point3& point() const { return m_point; }
 };
 
-inline float distance( const Vec3& point, const Line& line )
+inline float distance( const Point3& point, const Line& line )
 {
   Vec3 cross_vec = cross( point - line.point(), line.line() );
   return std::sqrt( dot( cross_vec, cross_vec ) / dot( line.line(), line.line() ) );

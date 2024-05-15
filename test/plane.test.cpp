@@ -89,10 +89,10 @@ TEST_F( PlaneTest, PlaneAndLineParallel )
   };
 
   std::optional<Point3> intersection = getIntersection( plane, line );
-  EXPECT_FALSE( intersection );
+  ASSERT_FALSE( intersection );
 }
 
-TEST_F( PlaneTest, LineIntersectsFrontFace )
+TEST_F( PlaneTest, LineIntersectsPlane )
 {
   Plane plane{ 0.0F, 1.0F, 0.0F, -5.0F };
   Line  line{
@@ -100,9 +100,33 @@ TEST_F( PlaneTest, LineIntersectsFrontFace )
     Vec3{ 0.0F, 1.0F, 0.0F }
   };
 
-  auto intersection = getIntersection( plane, line );
-  ASSERT_TRUE( intersection.has_value() );
-  EXPECT_FLOAT_EQ( intersection.value().x(), 1.0F );
-  EXPECT_FLOAT_EQ( intersection.value().y(), 5.0F );
-  EXPECT_FLOAT_EQ( intersection.value().x(), 1.0F );
+  auto opt_intersection = getIntersection( plane, line );
+  ASSERT_TRUE( opt_intersection.has_value() );
+  EXPECT_FLOAT_EQ( opt_intersection->x(), 1.0F );
+  EXPECT_FLOAT_EQ( opt_intersection->y(), 5.0F );
+  EXPECT_FLOAT_EQ( opt_intersection->x(), 1.0F );
+}
+
+TEST_F( PlaneTest, ThreePlanesIntersection )
+{
+  Plane plane_a{ 1.0F, 2.0F, 3.0F, 4.0F };
+  Plane plane_b{ 1.0F, 1.0F, 1.0F, 1.0F };
+  Plane plane_c{ 2.0F, 3.0F, 2.0F, 1.0F };
+
+  auto opt_point = getIntersection( plane_a, plane_b, plane_c );
+  ASSERT_TRUE( opt_point.has_value() );
+
+  EXPECT_FLOAT_EQ( opt_point->x(), 0.0F );
+  EXPECT_FLOAT_EQ( opt_point->y(), 1.0F );
+  EXPECT_FLOAT_EQ( opt_point->z(), -2.0F );
+}
+
+TEST_F( PlaneTest, ThreePlanesNotLinearlyIndependent )
+{
+  Plane plane_a{ 2.0F, 2.0F, 2.0F, 4.0F };
+  Plane plane_b{ 1.0F, 1.0F, 1.0F, 1.0F };
+  Plane plane_c{ 2.0F, 3.0F, 2.0F, 1.0F };
+
+  auto opt_point = getIntersection( plane_a, plane_b, plane_c );
+  ASSERT_FALSE( opt_point.has_value() );
 }

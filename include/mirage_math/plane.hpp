@@ -76,4 +76,19 @@ inline std::optional<Point3> getIntersection( const Plane& plane, const Line& li
   return std::fabs( fv ) > FLOAT_MIN ? std::optional{ line.point() - ( fp / fv ) * line.line() } : std::nullopt;
 }
 
+inline std::optional<Point3> getIntersection( const Plane& a, const Plane& b, const Plane& c )
+{
+  const Vec3& na = a.getNormal();
+  const Vec3& nb = b.getNormal();
+  const Vec3& nc = c.getNormal();
+
+  Vec3  cross_na_nb           = cross( na, nb );
+  float scalar_triple_product = dot( cross_na_nb, nc );
+
+  return std::fabs( scalar_triple_product ) > FLOAT_MIN
+           ? std::optional{ ( a.w() * cross( nc, nb ) + b.w() * cross( na, nc ) - c.w() * cross_na_nb )
+                            / scalar_triple_product }
+           : std::nullopt;
+}
+
 } // namespace Mirage::Math
