@@ -1,5 +1,6 @@
 #pragma once
 
+#include "mirage_math/line.hpp"
 #include "point.hpp"
 #include "transform.hpp"
 #include "vec.hpp"
@@ -40,17 +41,17 @@ Plane operator*( const Plane& plane, const Transform4& transform )
   };
 }
 
-inline Transform4 makeReflection( const Plane& f )
+inline Transform4 makeReflection( const Plane& plane )
 {
-  float nx_sq = -2.0F * f.x() * f.x();
-  float ny_sq = -2.0F * f.y() * f.y();
-  float nz_sq = -2.0F * f.z() * f.z();
-  float nx_ny = -2.0F * f.x() * f.y();
-  float nx_nz = -2.0F * f.x() * f.z();
-  float ny_nz = -2.0F * f.y() * f.z();
-  float nx_d  = -2.0F * f.x() * f.w();
-  float ny_d  = -2.0F * f.y() * f.w();
-  float nz_d  = -2.0F * f.z() * f.w();
+  float nx_sq = -2.0F * plane.x() * plane.x();
+  float ny_sq = -2.0F * plane.y() * plane.y();
+  float nz_sq = -2.0F * plane.z() * plane.z();
+  float nx_ny = -2.0F * plane.x() * plane.y();
+  float nx_nz = -2.0F * plane.x() * plane.z();
+  float ny_nz = -2.0F * plane.y() * plane.z();
+  float nx_d  = -2.0F * plane.x() * plane.w();
+  float ny_d  = -2.0F * plane.y() * plane.w();
+  float nz_d  = -2.0F * plane.z() * plane.w();
 
   return Transform4{
     1.0F + nx_sq,
@@ -66,6 +67,13 @@ inline Transform4 makeReflection( const Plane& f )
     1.0F + nz_sq,
     nz_d,
   };
+}
+
+inline std::optional<Point3> getIntersection( const Plane& plane, const Line& line )
+{
+  float fp = dot( plane, line.point() );
+  float fv = dot( plane, line.line() );
+  return std::fabs( fv ) > FLOAT_MIN ? std::optional{ line.point() - ( fp / fv ) * line.line() } : std::nullopt;
 }
 
 } // namespace Mirage::Math

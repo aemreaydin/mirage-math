@@ -79,3 +79,30 @@ TEST_F( PlaneTest, Reflection )
   EXPECT_FLOAT_EQ( reflected_origin.y(), -4.0F );
   EXPECT_FLOAT_EQ( reflected_origin.z(), -6.0F );
 }
+
+TEST_F( PlaneTest, PlaneAndLineParallel )
+{
+  Plane plane{ 0.0F, 1.0F, 0.0F, -5.0F };
+  Line  line{
+    Point3{ 1.0F, 6.0F, 1.0F },
+    Vec3{ 1.0F, 0.0F, 1.0F }
+  };
+
+  std::optional<Point3> intersection = getIntersection( plane, line );
+  EXPECT_FALSE( intersection );
+}
+
+TEST_F( PlaneTest, LineIntersectsFrontFace )
+{
+  Plane plane{ 0.0F, 1.0F, 0.0F, -5.0F };
+  Line  line{
+    Point3{ 1.0F, 0.0F, 1.0F },
+    Vec3{ 0.0F, 1.0F, 0.0F }
+  };
+
+  auto intersection = getIntersection( plane, line );
+  ASSERT_TRUE( intersection.has_value() );
+  EXPECT_FLOAT_EQ( intersection.value().x(), 1.0F );
+  EXPECT_FLOAT_EQ( intersection.value().y(), 5.0F );
+  EXPECT_FLOAT_EQ( intersection.value().x(), 1.0F );
+}

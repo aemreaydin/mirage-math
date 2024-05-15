@@ -13,8 +13,8 @@ protected:
   void SetUp() override
   {
     testLine = Line{
-      Vec3{1.0F, 2.0F, 3.0F},
-      Vec3{4.0F, 5.0F, 6.0F}
+      Point3{ 1.0F, 2.0F, 3.0F },
+      Vec3{ 4.0F, 5.0F, 6.0F }
     };
   }
 };
@@ -48,8 +48,8 @@ TEST_F( LineTest, DistanceOnLine )
 TEST_F( LineTest, DistanceFromLine )
 {
   Line line{
-    Vec3{1.0F, 2.0F, 3.0F},
-    Vec3{1.0F, 0.0F, 0.0F}
+    Point3{ 1.0F, 2.0F, 3.0F },
+    Vec3{ 1.0F, 0.0F, 0.0F }
   };
   Vec3  point{ 4.0F, 5.0F, 6.0F };
   float expected_distance   = 3 * std::sqrt( 2.0F );
@@ -57,8 +57,8 @@ TEST_F( LineTest, DistanceFromLine )
   EXPECT_FLOAT_EQ( calculated_distance, expected_distance );
 
   line = {
-    Vec3{ 0.0F, 2.0F, 3.0F},
-    Vec3{-2.0F, 2.0F, 2.0F}
+    Point3{  0.0F, 2.0F, 3.0F },
+    Vec3{ -2.0F, 2.0F, 2.0F }
   };
   point               = Vec3{ -8.0F, 9.0F, 9.0F };
   expected_distance   = std::sqrt( 2.0F );
@@ -69,12 +69,12 @@ TEST_F( LineTest, DistanceFromLine )
 TEST_F( LineTest, DistanceBetweenSkewLines )
 {
   Line line_a{
-    Vec3{0.0F, 0.0F, 0.0F},
-    Vec3{1.0F, 0.0F, 0.0F}
+    Point3{ 0.0F, 0.0F, 0.0F },
+    Vec3{ 1.0F, 0.0F, 0.0F }
   };
   Line line_b{
-    Vec3{0.0F, 1.0F, 1.0F},
-    Vec3{0.0F, 1.0F, 0.0F}
+    Point3{ 0.0F, 1.0F, 1.0F },
+    Vec3{ 0.0F, 1.0F, 0.0F }
   };
 
   float expected          = 1.0F;
@@ -84,8 +84,8 @@ TEST_F( LineTest, DistanceBetweenSkewLines )
 
 TEST_F( LineTest, DistanceBetweenParallelLines )
 {
-  Line line_a( Vec3{ 0.0F, 0.0F, 0.0F }, Vec3{ 1.0F, 1.0F, 1.0F } );
-  Line line_b( Vec3{ 0.0F, 1.0F, 1.0F }, Vec3{ 1.0F, 1.0F, 1.0F } );
+  Line line_a( Point3{ 0.0F, 0.0F, 0.0F }, Vec3{ 1.0F, 1.0F, 1.0F } );
+  Line line_b( Point3{ 0.0F, 1.0F, 1.0F }, Vec3{ 1.0F, 1.0F, 1.0F } );
 
   float expected          = sqrt( 2.0F / 3.0F );
   float distance_computed = distance( line_a, line_b );
@@ -94,8 +94,8 @@ TEST_F( LineTest, DistanceBetweenParallelLines )
 
 TEST_F( LineTest, DistanceBetweenIntersectingLines )
 {
-  Line line_a( Vec3{ 0.0F, 0.0F, 0.0F }, Vec3{ 1.0F, 0.0F, 0.0F } );
-  Line line_b( Vec3{ 0.0F, 0.0F, 0.0F }, Vec3{ 0.0F, 1.0F, 0.0F } );
+  Line line_a( Point3{ 0.0F, 0.0F, 0.0F }, Vec3{ 1.0F, 0.0F, 0.0F } );
+  Line line_b( Point3{ 0.0F, 0.0F, 0.0F }, Vec3{ 0.0F, 1.0F, 0.0F } );
 
   float expected          = 0.0F;
   float distance_computed = distance( line_a, line_b );

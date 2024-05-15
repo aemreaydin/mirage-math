@@ -1,29 +1,30 @@
 #pragma once
 
+#include "point.hpp"
 #include "vec.hpp"
 
 namespace Mirage::Math {
 
 class Line
 {
-  Vec3 m_point{};
-  Vec3 m_line{};
+  Point3 m_point;
+  Vec3   m_line;
 
 public:
   Line() = default;
-  Line( const Vec3& point, const Vec3& line ) : m_point( point ), m_line( line ) {}
+  Line( const Point3& point, const Vec3& line ) : m_point( point ), m_line( line ) {}
 
-  [[nodiscard]] inline const Vec3& line() const { return m_line; }
-  [[nodiscard]] inline const Vec3& point() const { return m_point; }
+  [[nodiscard]] inline const Vec3&   line() const { return m_line; }
+  [[nodiscard]] inline const Point3& point() const { return m_point; }
 };
 
-float distance( const Vec3& point, const Line& line )
+inline float distance( const Vec3& point, const Line& line )
 {
   Vec3 cross_vec = cross( point - line.point(), line.line() );
   return std::sqrt( dot( cross_vec, cross_vec ) / dot( line.line(), line.line() ) );
 }
 
-float distance( const Line& line_a, const Line& line_b )
+inline float distance( const Line& line_a, const Line& line_b )
 {
   Vec3 ab = line_b.point() - line_a.point();
 
