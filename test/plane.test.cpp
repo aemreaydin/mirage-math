@@ -130,3 +130,20 @@ TEST_F( PlaneTest, ThreePlanesNotLinearlyIndependent )
   auto opt_point = getIntersection( plane_a, plane_b, plane_c );
   ASSERT_FALSE( opt_point.has_value() );
 }
+
+TEST_F( PlaneTest, TwoPlanesIntersection )
+{
+  Plane plane_a{ 2.0F, -1.0F, 1.0F, -1.0F };
+  Plane plane_b{ 1.0F, 1.0F, 1.0F, -6.0F };
+
+  auto opt_line = getIntersection( plane_a, plane_b );
+  ASSERT_TRUE( opt_line.has_value() );
+
+  EXPECT_FLOAT_EQ( opt_line->point().x(), 16.0F / 14.0F );
+  EXPECT_FLOAT_EQ( opt_line->point().y(), 43.0F / 14.0F );
+  EXPECT_FLOAT_EQ( opt_line->point().z(), 25.0F / 14.0F );
+
+  EXPECT_FLOAT_EQ( opt_line->vector().x(), -2.0F );
+  EXPECT_FLOAT_EQ( opt_line->vector().y(), -1.0F );
+  EXPECT_FLOAT_EQ( opt_line->vector().z(), 3.0F );
+}

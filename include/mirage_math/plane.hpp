@@ -72,8 +72,8 @@ inline Transform4 makeReflection( const Plane& plane )
 inline std::optional<Point3> getIntersection( const Plane& plane, const Line& line )
 {
   float fp = dot( plane, line.point() );
-  float fv = dot( plane, line.line() );
-  return std::fabs( fv ) > FLOAT_MIN ? std::optional{ line.point() - ( fp / fv ) * line.line() } : std::nullopt;
+  float fv = dot( plane, line.vector() );
+  return std::fabs( fv ) > FLOAT_MIN ? std::optional{ line.point() - ( fp / fv ) * line.vector() } : std::nullopt;
 }
 
 inline std::optional<Point3> getIntersection( const Plane& a, const Plane& b, const Plane& c )
@@ -89,6 +89,23 @@ inline std::optional<Point3> getIntersection( const Plane& a, const Plane& b, co
            ? std::optional{ ( a.w() * cross( nc, nb ) + b.w() * cross( na, nc ) - c.w() * cross_na_nb )
                             / scalar_triple_product }
            : std::nullopt;
+}
+
+inline std::optional<Line> getIntersection( const Plane& a, const Plane& b )
+{
+  const Vec3& na = a.getNormal();
+  const Vec3& nb = b.getNormal();
+
+  const Vec3& vec                   = cross( na, nb );
+  float       scalar_triple_product = dot( vec, vec );
+  if ( std::fabs( scalar_triple_product ) > FLOAT_MIN )
+  {
+    Point3 point{ ( a.w() * cross( vec, nb ) + b.w() * cross( na, vec ) ) / scalar_triple_product };
+    return std::optional{
+      Line{ point, vec }
+    };
+  }
+  return std::nullopt;
 }
 
 } // namespace Mirage::Math
